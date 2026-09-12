@@ -1,0 +1,126 @@
+/* =========================================================
+   3. Estructura y Navegación (layout.css)
+   ========================================================= */
+
+/* Header Institucional */
+.app-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 0.85rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Marca / Logotipo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.logo h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+/* Enlaces de Navegación */
+.nav-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+}
+
+.nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Identificación de Usuario y Cierre de Sesión */
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    color: #94a3b8;
+}
+
+.user-name strong {
+    color: #f1f5f9;
+}
+
+.btn-logout {
+    background: transparent;
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.btn-logout:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+/* Contenedor Principal */
+.main-content {
+    flex: 1;
+    padding: 2.25rem 1.5rem;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+/* Pie de Página */
+.app-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+    background: #ffffff;
+}

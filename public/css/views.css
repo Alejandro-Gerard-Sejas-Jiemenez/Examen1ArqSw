@@ -1,0 +1,272 @@
+/* =========================================================
+   5. Estilos Específicos de Vistas (views.css)
+   ========================================================= */
+
+/* --- Vista Login --- */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.login-card {
+    background: #ffffff;
+    padding: 2.25rem 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    max-width: 420px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.login-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.demo-credentials {
+    margin-top: 1.5rem;
+    padding: 0.85rem;
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    font-size: 0.78125rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.demo-credentials ul {
+    margin-left: 1.2rem;
+    margin-top: 0.4rem;
+}
+
+.demo-credentials li {
+    margin-bottom: 0.25rem;
+}
+
+/* --- Vista Ejercicio: Catálogo y Multimedia --- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.exercise-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+}
+
+.card-media {
+    position: relative;
+    background: #f1f5f9;
+}
+
+.card-media img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.no-image {
+    height: 180px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.exercise-card .card-body {
+    flex: 1;
+    padding: 1.25rem;
+}
+
+.exercise-card h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.exercise-card .description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.exercise-video {
+    width: 100%;
+    margin-top: 0.85rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.exercise-card .card-footer {
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+    background: #ffffff;
+}
+
+/* --- Vista Rutina: Constructor de Rutina Transaccional --- */
+.exercise-builder-bar {
+    display: flex;
+    gap: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin: 1rem 0;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.exercise-builder-bar .col-4 { flex: 4; min-width: 180px; }
+.exercise-builder-bar .col-2 { flex: 2; min-width: 100px; }
+
+/* --- Vista Rutina Cliente: Visualización y Videos --- */
+.routine-header-card {
+    padding: 1.5rem;
+}
+
+.routine-title-box {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.25rem;
+}
+
+.routine-title-box .badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: var(--primary-color);
+    padding: 0.2rem 0.55rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+}
+
+.routine-title-box h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0.25rem 0 0.5rem 0;
+    letter-spacing: -0.01em;
+}
+
+.routine-title-box .meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.notes-box {
+    margin-top: 0.85rem;
+    background: #f8fafc;
+    border-left: 3px solid var(--primary-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.notes-box strong {
+    color: var(--text-primary);
+}
+
+.exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1rem;
+}
+
+.exercise-row-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.25rem;
+    border: 1px solid var(--border-color);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.exercise-row-card:hover {
+    border-color: var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+}
+
+.exercise-thumb img, .placeholder-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.exercise-info {
+    flex: 1;
+}
+
+.exercise-info h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.exercise-info p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+}
+
+.metrics-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.tag {
+    background: #f8fafc;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.tag strong {
+    color: var(--text-primary);
+}
+
+.player-video-responsive {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    max-height: 70vh;
+    background: #000000;
+}
