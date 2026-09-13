@@ -7,13 +7,15 @@ require_once __DIR__ . '/Conexion.php';
  * Paquete: Diagramas de Desplazamiento / Model
  * ElementID: 61
  */
-class Modelo_Rutina {
+class Modelo_Rutina
+{
 
     /**
      * Inserta la cabecera de la rutina y devuelve el ID generado
      * Utilizado en CU5: Gestionar Rutina
      */
-    public function insertarCabeceraBD($nombre, $indicaciones, $fecha_inicio, $fecha_fin, $cliente_id, $entrenador_id) {
+    public function insertarCabeceraBD($nombre, $indicaciones, $fecha_inicio, $fecha_fin, $cliente_id, $entrenador_id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("INSERT INTO rutina (nombre, indicaciones, fecha_inicio, fecha_fin, cliente_id, entrenador_id) 
                               VALUES (:nombre, :indicaciones, :fecha_inicio, :fecha_fin, :cliente_id, :entrenador_id)");
@@ -32,7 +34,8 @@ class Modelo_Rutina {
      * Actualiza la cabecera de una rutina
      * Utilizado en CU5: Gestionar Rutina
      */
-    public function actualizarCabeceraBD($id, $nombre, $indicaciones, $fecha_inicio, $fecha_fin) {
+    public function actualizarCabeceraBD($id, $nombre, $indicaciones, $fecha_inicio, $fecha_fin)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("UPDATE rutina SET nombre = :nombre, indicaciones = :indicaciones, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin WHERE id = :id");
         return $stmt->execute([
@@ -48,7 +51,8 @@ class Modelo_Rutina {
      * Elimina la cabecera de la rutina
      * Utilizado en CU5: Gestionar Rutina
      */
-    public function eliminarCabeceraBD($id) {
+    public function eliminarCabeceraBD($id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("DELETE FROM rutina WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -58,7 +62,8 @@ class Modelo_Rutina {
      * Consulta la rutina activa/vigente asignada a un cliente
      * Utilizado en CU7: Visualizar Rutina Asignada
      */
-    public function consultarRutinaVigenteBD($cliente_id) {
+    public function consultarRutinaVigenteBD($cliente_id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT r.*, e.name AS nombre_entrenador, c.name AS nombre_cliente 
                               FROM rutina r
@@ -73,7 +78,8 @@ class Modelo_Rutina {
     /**
      * Consulta el historial de todas las rutinas registradas con el nombre de su cliente
      */
-    public function consultarHistorialRutinasBD() {
+    public function consultarHistorialRutinasBD()
+    {
         $db = Conexion::getConexion();
         $sql = "SELECT r.*, c.name AS nombre_cliente 
                 FROM rutina r 

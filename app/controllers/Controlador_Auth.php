@@ -24,12 +24,6 @@ class Controlador_Auth {
         $this->vistaLayout = new Vista_Layout();
     }
 
-    /**
-     * Muestra el formulario inicial de login
-     */
-    public function mostrarFormulario() {
-        $this->vistaLogin->mostrarFormulario();
-    }
 
     /**
      * Procesa la autenticación del usuario

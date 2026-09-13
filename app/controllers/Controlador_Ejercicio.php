@@ -33,12 +33,6 @@ class Controlador_Ejercicio {
         $this->vistaEjercicio->desplegarCatalogoEjercicios($catalogo);
     }
 
-    /**
-     * Muestra formulario para capturar datos
-     */
-    public function capturarDatosEjercicioConArchivos() {
-        $this->vistaEjercicio->capturarDatosEjercicioConArchivos();
-    }
 
     /**
      * Crea un ejercicio completo incluyendo la inserción de imágenes y videos
@@ -48,22 +42,24 @@ class Controlador_Ejercicio {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre = trim($_POST['nombre'] ?? '');
             $descripcion = trim($_POST['descripcion'] ?? '');
-            $urlImagen = trim($_POST['url_iamgen'] ?? '');
-            $urlVideo = trim($_POST['url_video'] ?? '');
+            // Recurso de imagen: archivo cargado desde el dispositivo o URL escrita
+            $recursoImagen = (!empty($_FILES['archivo_imagen']['tmp_name'])) ? $_FILES['archivo_imagen'] : trim($_POST['url_iamgen'] ?? '');
+            // Recurso de video: archivo cargado desde el dispositivo o URL escrita
+            $recursoVideo = (!empty($_FILES['archivo_video']['tmp_name'])) ? $_FILES['archivo_video'] : trim($_POST['url_video'] ?? '');
 
-            if (!empty($nombre) && !empty($urlImagen)) {
-                // 1. Insertar Ejercicio
+            if (!empty($nombre) && !empty($recursoImagen)) {
+                // 1. Insertar Ejercicio en Modelo_Ejercicio
                 $ejercicioId = $this->modeloEjercicio->insertarEjercicioBD($nombre, $descripcion);
 
-                // 2. Insertar Imagen (Secuencia CU4)
-                $this->modeloImagen->insertarImagenBD($urlImagen, $ejercicioId);
+                // 2. Insertar Imagen en Modelo_Imagen (gestiona almacenamiento y BD)
+                $this->modeloImagen->insertarImagenBD($recursoImagen, $ejercicioId);
 
-                // 3. Insertar Video si se proporciona (Secuencia CU4)
-                if (!empty($urlVideo)) {
-                    $this->modeloVideo->insertarVideoBD($urlVideo, $ejercicioId);
+                // 3. Insertar Video en Modelo_Video si se proporciona
+                if (!empty($recursoVideo)) {
+                    $this->modeloVideo->insertarVideoBD($recursoVideo, $ejercicioId);
                 }
 
-                header("Location: index.php?c=Ejercicio&a=listarEjerciciosConMultimedia&msg=" . urlencode("Ejercicio creado exitosamente."));
+                header("Location: index.php?c=Ejercicio&a=listarEjerciciosConMultimedia&msg=" . urlencode("Ejercicio creado exitosamente con multimedia."));
                 exit();
             }
         }

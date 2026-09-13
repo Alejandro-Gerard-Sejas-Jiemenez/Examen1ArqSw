@@ -83,7 +83,7 @@ class Vista_Cliente {
                     <h2>Gestión de Clientes</h2>
                     <p class="subtitle">Administración de clientes y sus datos antropométricos</p>
                 </div>
-                <a href="index.php?c=Cliente&a=capturarDatosCliente" class="btn btn-primary">Nuevo Cliente</a>
+                <a href="index.php?c=Cliente&a=registrarCliente" class="btn btn-primary">Nuevo Cliente</a>
             </div>
 
             <?php if (isset($_GET['msg'])): ?>

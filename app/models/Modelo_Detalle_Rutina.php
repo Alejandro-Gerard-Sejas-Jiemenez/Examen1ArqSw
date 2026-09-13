@@ -7,17 +7,19 @@ require_once __DIR__ . '/Conexion.php';
  * Paquete: Diagramas de Desplazamiento / Model
  * ElementID: 69
  */
-class Modelo_Detalle_Rutina {
+class Modelo_Detalle_Rutina
+{
 
     /**
      * Inserta un lote de detalles de ejercicios para una rutina
      * Utilizado en CU5: Gestionar Rutina
      */
-    public function insertarDetalleLoteBD($rutina_id, array $detalles) {
+    public function insertarDetalleLoteBD($rutina_id, array $detalles)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("INSERT INTO detalle_rutina (rutina_id, ejercicio_id, series, repeticiones, tiempo) 
                               VALUES (:rutina_id, :ejercicio_id, :series, :repeticiones, :tiempo)");
-        
+
         foreach ($detalles as $item) {
             $stmt->execute([
                 ':rutina_id' => $rutina_id,
@@ -34,7 +36,8 @@ class Modelo_Detalle_Rutina {
      * Elimina todos los detalles de ejercicios pertenecientes a una rutina
      * Utilizado en CU5: Gestionar Rutina
      */
-    public function eliminarDetallesPorRutinaBD($rutina_id) {
+    public function eliminarDetallesPorRutinaBD($rutina_id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("DELETE FROM detalle_rutina WHERE rutina_id = :rutina_id");
         return $stmt->execute([':rutina_id' => $rutina_id]);
@@ -44,7 +47,8 @@ class Modelo_Detalle_Rutina {
      * Consulta los ejercicios asignados en el detalle de una rutina
      * Utilizado en CU7: Visualizar Rutina Asignada
      */
-    public function consultarEjerciciosAsignadosBD($rutina_id) {
+    public function consultarEjerciciosAsignadosBD($rutina_id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT dr.*, e.nombre AS nombre_ejercicio, e.descripcion AS descripcion_ejercicio,
                                      (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id LIMIT 1) AS imagen_url,

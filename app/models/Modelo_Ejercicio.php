@@ -7,13 +7,15 @@ require_once __DIR__ . '/Conexion.php';
  * Paquete: Diagramas de Desplazamiento / Model
  * ElementID: 59
  */
-class Modelo_Ejercicio {
+class Modelo_Ejercicio
+{
 
     /**
      * Inserta un nuevo ejercicio en la BD y devuelve el ID generado
      * Utilizado en CU4: Gestionar Ejercicio con Multimedia
      */
-    public function insertarEjercicioBD($nombre, $descripcion) {
+    public function insertarEjercicioBD($nombre, $descripcion)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("INSERT INTO ejercicio (nombre, descripcion) VALUES (:nombre, :descripcion)");
         $stmt->execute([
@@ -26,7 +28,8 @@ class Modelo_Ejercicio {
     /**
      * Actualiza un ejercicio existente
      */
-    public function actualizarEjercicioBD($id, $nombre, $descripcion) {
+    public function actualizarEjercicioBD($id, $nombre, $descripcion)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("UPDATE ejercicio SET nombre = :nombre, descripcion = :descripcion WHERE id = :id");
         return $stmt->execute([
@@ -40,7 +43,8 @@ class Modelo_Ejercicio {
      * Elimina un ejercicio de la BD
      * Utilizado en CU4: Gestionar Ejercicio con Multimedia
      */
-    public function eliminarEjercicioBD($id) {
+    public function eliminarEjercicioBD($id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("DELETE FROM ejercicio WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -50,7 +54,8 @@ class Modelo_Ejercicio {
      * Consulta el catálogo completo de ejercicios con sus recursos multimedia
      * Utilizado en CU4: Gestionar Ejercicio con Multimedia
      */
-    public function consultarConMultimediaBD() {
+    public function consultarConMultimediaBD()
+    {
         $db = Conexion::getConexion();
         $sql = "SELECT e.id, e.nombre, e.descripcion,
                        (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id LIMIT 1) AS imagen_url,
@@ -65,7 +70,8 @@ class Modelo_Ejercicio {
      * Obtiene los recursos multimedia asociados a un ejercicio específico
      * Utilizado en CU7: Visualizar Rutina Asignada
      */
-    public function obtenerRecursosMultimediaBD($ejercicio_id) {
+    public function obtenerRecursosMultimediaBD($ejercicio_id)
+    {
         $db = Conexion::getConexion();
         $stmtImg = $db->prepare("SELECT url_iamgen FROM imagen WHERE ejercicio_id = :id");
         $stmtImg->execute([':id' => $ejercicio_id]);

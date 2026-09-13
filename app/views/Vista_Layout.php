@@ -20,7 +20,7 @@ class Vista_Layout {
      * Utilizado en CU2: Cerrar Sesion
      */
     public function redirigirAFormularioLogin() {
-        header("Location: index.php?c=Auth&a=mostrarFormulario");
+        header("Location: index.php?c=Auth&a=iniciarSesion");
         exit();
     }
 
@@ -52,7 +52,7 @@ class Vista_Layout {
                         <?php if ($rol === 'entrenador'): ?>
                             <a href="index.php?c=Cliente&a=listarClientes" class="nav-item">Clientes</a>
                             <a href="index.php?c=Ejercicio&a=listarEjerciciosConMultimedia" class="nav-item">Ejercicios</a>
-                            <a href="index.php?c=Rutina&a=mostrarFormularioTransaccional" class="nav-item">Nueva Rutina</a>
+                            <a href="index.php?c=Rutina&a=procesarRutinaTransaccional" class="nav-item">Nueva Rutina</a>
                             <a href="index.php?c=Rutina&a=listarHistorialRutinas" class="nav-item">Historial</a>
                             <a href="index.php?c=Entrenador&a=consultarPerfil" class="nav-item">Mi Perfil</a>
                         <?php elseif ($rol === 'cliente'): ?>

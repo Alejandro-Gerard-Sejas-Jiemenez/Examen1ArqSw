@@ -22,17 +22,11 @@ class Controlador_Cliente {
      * Lista todos los clientes y solicita a la vista desplegarlos
      * Utilizado en CU3: Gestionar Cliente
      */
-    public function listarClientes($id = null, $datos = null) {
+    public function listarClientes() {
         $lista = $this->modeloCliente->consultarTodosBD();
         $this->vistaCliente->desplegarTablaClientes($lista);
     }
 
-    /**
-     * Muestra formulario para nuevo cliente
-     */
-    public function capturarDatosCliente() {
-        $this->vistaCliente->capturarDatosCliente();
-    }
 
     /**
      * Registra un nuevo cliente en la BD

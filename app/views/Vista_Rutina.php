@@ -209,7 +209,7 @@ class Vista_Rutina {
                     <h2>Historial de Rutinas</h2>
                     <p class="subtitle">Rutinas planificadas y asignadas en el sistema</p>
                 </div>
-                <a href="index.php?c=Rutina&a=mostrarFormularioTransaccional" class="btn btn-primary">Nueva Rutina</a>
+                <a href="index.php?c=Rutina&a=procesarRutinaTransaccional" class="btn btn-primary">Nueva Rutina</a>
             </div>
 
             <?php if (isset($_GET['msg'])): ?>

@@ -15,7 +15,7 @@ require_once __DIR__ . '/app/controllers/Controlador_Entrenador.php';
 
 // Parámetros de petición
 $controllerParam = $_GET['c'] ?? 'Auth';
-$actionParam = $_GET['a'] ?? 'mostrarFormulario';
+$actionParam = $_GET['a'] ?? 'iniciarSesion';
 
 // Mapeo seguro de Controladores según Enterprise Architect
 $controllersMap = [
@@ -28,7 +28,7 @@ $controllersMap = [
 
 if (!array_key_exists($controllerParam, $controllersMap)) {
     $controllerParam = 'Auth';
-    $actionParam = 'mostrarFormulario';
+    $actionParam = 'iniciarSesion';
 }
 
 $controllerClass = $controllersMap[$controllerParam];
@@ -36,7 +36,7 @@ $controllerInstance = new $controllerClass();
 
 // Control de Acceso: Verificar si requiere sesión activa (excepto en Auth)
 if ($controllerParam !== 'Auth' && !isset($_SESSION['usuario'])) {
-    header("Location: index.php?c=Auth&a=mostrarFormulario");
+    header("Location: index.php?c=Auth&a=iniciarSesion");
     exit();
 }
 
@@ -46,7 +46,7 @@ if (method_exists($controllerInstance, $actionParam)) {
 } else {
     // Si la acción no existe o es por defecto
     if ($controllerParam === 'Auth') {
-        $controllerInstance->mostrarFormulario();
+        $controllerInstance->iniciarSesion();
     } elseif ($controllerParam === 'Cliente') {
         $controllerInstance->listarClientes();
     } elseif ($controllerParam === 'Ejercicio') {

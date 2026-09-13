@@ -7,13 +7,15 @@ require_once __DIR__ . '/Conexion.php';
  * Paquete: Diagramas de Desplazamiento / Model
  * ElementID: 60
  */
-class Modelo_Entrenador {
+class Modelo_Entrenador
+{
 
     /**
      * Obtiene los datos de un entrenador por su ID
      * Utilizado en CU6: Gestionar Perfil de Entrenador
      */
-    public function obtenerPorIdBD($id) {
+    public function obtenerPorIdBD($id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT id, name, password FROM entrenador WHERE id = :id");
         $stmt->execute([':id' => $id]);
@@ -24,7 +26,8 @@ class Modelo_Entrenador {
      * Actualiza los datos del entrenador en la BD
      * Utilizado en CU6: Gestionar Perfil de Entrenador
      */
-    public function actualizarEntrenadorBD($id, $name, $password) {
+    public function actualizarEntrenadorBD($id, $name, $password)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("UPDATE entrenador SET name = :name, password = :password WHERE id = :id");
         return $stmt->execute([
@@ -38,7 +41,8 @@ class Modelo_Entrenador {
      * Elimina la cuenta de un entrenador de la BD
      * Utilizado en CU6: Gestionar Perfil de Entrenador
      */
-    public function eliminarEntrenadorBD($id) {
+    public function eliminarEntrenadorBD($id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("DELETE FROM entrenador WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -48,7 +52,8 @@ class Modelo_Entrenador {
      * Obtiene el entrenador por email o nombre de usuario
      * Utilizado en CU1: Iniciar Sesion
      */
-    public function obtenerUsuarioPorEmailBD($emailOrName) {
+    public function obtenerUsuarioPorEmailBD($emailOrName)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT id, name, password FROM entrenador WHERE name = :name");
         $stmt->execute([':name' => $emailOrName]);
@@ -59,7 +64,8 @@ class Modelo_Entrenador {
      * Valida las credenciales del entrenador en la BD
      * Utilizado en CU1: Iniciar Sesion
      */
-    public function validarCredencialesBD($name, $password) {
+    public function validarCredencialesBD($name, $password)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT id, name FROM entrenador WHERE name = :name AND password = :password");
         $stmt->execute([':name' => $name, ':password' => $password]);

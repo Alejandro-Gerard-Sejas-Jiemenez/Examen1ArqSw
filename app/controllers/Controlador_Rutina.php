@@ -31,15 +31,6 @@ class Controlador_Rutina {
     }
 
     /**
-     * Muestra el formulario para crear una rutina transaccional
-     */
-    public function mostrarFormularioTransaccional() {
-        $clientes = $this->modeloCliente->consultarTodosBD();
-        $ejercicios = $this->modeloEjercicio->consultarConMultimediaBD();
-        $this->vistaRutina->mostrarFormularioTransaccional($clientes, $ejercicios);
-    }
-
-    /**
      * Muestra el listado con el historial de rutinas creadas
      */
     public function listarHistorialRutinas() {
@@ -48,7 +39,7 @@ class Controlador_Rutina {
     }
 
     /**
-     * Procesa la inserción transaccional de cabecera y lotes de detalles
+     * Procesa la inserción transaccional de cabecera y lotes de detalles (o muestra el formulario)
      * Utilizado en CU5: Gestionar Rutina
      */
     public function procesarRutinaTransaccional() {
@@ -86,12 +77,15 @@ class Controlador_Rutina {
                     if ($db->inTransaction()) {
                         $db->rollBack();
                     }
-                    header("Location: index.php?c=Rutina&a=mostrarFormularioTransaccional&err=" . urlencode("Error al procesar la transacción: " . $e->getMessage()));
+                    header("Location: index.php?c=Rutina&a=procesarRutinaTransaccional&err=" . urlencode("Error al procesar la transacción: " . $e->getMessage()));
                     exit();
                 }
             }
         }
-        $this->mostrarFormularioTransaccional();
+
+        $clientes = $this->modeloCliente->consultarTodosBD();
+        $ejercicios = $this->modeloEjercicio->consultarConMultimediaBD();
+        $this->vistaRutina->mostrarFormularioTransaccional($clientes, $ejercicios);
     }
 
     /**

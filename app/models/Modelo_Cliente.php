@@ -7,13 +7,15 @@ require_once __DIR__ . '/Conexion.php';
  * Paquete: Diagramas de Desplazamiento / Model
  * ElementID: 58
  */
-class Modelo_Cliente {
+class Modelo_Cliente
+{
 
     /**
      * Consulta todos los clientes registrados en la BD
      * Utilizado en CU3: Gestionar Cliente
      */
-    public function consultarTodosBD() {
+    public function consultarTodosBD()
+    {
         $db = Conexion::getConexion();
         $stmt = $db->query("SELECT id, name, email, peso, altura FROM cliente ORDER BY id DESC");
         return $stmt->fetchAll();
@@ -23,7 +25,8 @@ class Modelo_Cliente {
      * Inserta un nuevo cliente en la BD
      * Utilizado en CU3: Gestionar Cliente
      */
-    public function insertarClienteBD($name, $email, $password, $peso = null, $altura = null) {
+    public function insertarClienteBD($name, $email, $password, $peso = null, $altura = null)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("INSERT INTO cliente (name, email, password, peso, altura) VALUES (:name, :email, :password, :peso, :altura)");
         return $stmt->execute([
@@ -38,7 +41,8 @@ class Modelo_Cliente {
     /**
      * Actualiza los datos de un cliente en la BD
      */
-    public function actualizarClienteBD($id, $name, $email, $peso = null, $altura = null) {
+    public function actualizarClienteBD($id, $name, $email, $peso = null, $altura = null)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("UPDATE cliente SET name = :name, email = :email, peso = :peso, altura = :altura WHERE id = :id");
         return $stmt->execute([
@@ -54,7 +58,8 @@ class Modelo_Cliente {
      * Elimina un cliente de la BD
      * Utilizado en CU3: Gestionar Cliente
      */
-    public function eliminarClienteBD($id) {
+    public function eliminarClienteBD($id)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("DELETE FROM cliente WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -64,7 +69,8 @@ class Modelo_Cliente {
      * Valida las credenciales del cliente en la BD
      * Utilizado en CU1: Iniciar Sesion
      */
-    public function validarCredencialesBD($email, $password) {
+    public function validarCredencialesBD($email, $password)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT id, name, email FROM cliente WHERE email = :email AND password = :password");
         $stmt->execute([':email' => $email, ':password' => $password]);
@@ -74,7 +80,8 @@ class Modelo_Cliente {
     /**
      * Obtiene los datos del cliente por su correo electrónico
      */
-    public function obtenerUsuarioPorEmailBD($email) {
+    public function obtenerUsuarioPorEmailBD($email)
+    {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT id, name, email, password FROM cliente WHERE email = :email");
         $stmt->execute([':email' => $email]);

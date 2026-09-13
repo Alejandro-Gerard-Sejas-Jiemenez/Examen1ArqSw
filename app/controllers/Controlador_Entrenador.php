@@ -67,7 +67,7 @@ class Controlador_Entrenador
                 $_SESSION = [];
                 session_destroy();
             }
-            header("Location: index.php?c=Auth&a=mostrarFormulario");
+            header("Location: index.php?c=Auth&a=iniciarSesion");
             exit();
         }
         $this->consultarPerfil();

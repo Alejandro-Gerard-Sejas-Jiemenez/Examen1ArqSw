@@ -22,7 +22,7 @@ class Vista_Ejercicio {
                     <h2>Catálogo de Ejercicios</h2>
                     <p class="subtitle">Ejercicios disponibles con imágenes y videos demostrativos</p>
                 </div>
-                <a href="index.php?c=Ejercicio&a=capturarDatosEjercicioConArchivos" class="btn btn-primary">Nuevo Ejercicio</a>
+                <a href="index.php?c=Ejercicio&a=crearEjercicioCompleto" class="btn btn-primary">Nuevo Ejercicio</a>
             </div>
 
             <?php if (isset($_GET['msg'])): ?>
@@ -81,7 +81,7 @@ class Vista_Ejercicio {
                     <a href="index.php?c=Ejercicio&a=listarEjerciciosConMultimedia" class="btn btn-secondary">Volver al Catálogo</a>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?c=Ejercicio&a=crearEjercicioCompleto" method="POST" class="standard-form">
+                    <form action="index.php?c=Ejercicio&a=crearEjercicioCompleto" method="POST" enctype="multipart/form-data" class="standard-form">
                         <div class="form-group">
                             <label for="nombre">Nombre del Ejercicio:</label>
                             <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej: Dominadas con agarre supino" required>
@@ -93,13 +93,19 @@ class Vista_Ejercicio {
                         </div>
 
                         <div class="form-group">
-                            <label for="url_iamgen">URL de Imagen Ilustrativa:</label>
-                            <input type="url" name="url_iamgen" id="url_iamgen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" required>
+                            <label><strong>Imagen Ilustrativa:</strong></label>
+                            <label for="archivo_imagen" style="font-weight: normal; margin-top: 4px;">Seleccionar imagen desde tu dispositivo:</label>
+                            <input type="file" name="archivo_imagen" id="archivo_imagen" class="form-control" accept="image/*">
+                            <small class="form-text text-muted" style="display:block; margin: 4px 0;">O escribe una URL de internet si no subes archivo:</small>
+                            <input type="text" name="url_iamgen" id="url_iamgen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg">
                         </div>
 
                         <div class="form-group">
-                            <label for="url_video">URL de Video Demostrativo (Opcional):</label>
-                            <input type="url" name="url_video" id="url_video" class="form-control" placeholder="https://ejemplo.com/video.mp4">
+                            <label><strong>Video Demostrativo (Opcional):</strong></label>
+                            <label for="archivo_video" style="font-weight: normal; margin-top: 4px;">Seleccionar video desde tu dispositivo:</label>
+                            <input type="file" name="archivo_video" id="archivo_video" class="form-control" accept="video/mp4,video/webm">
+                            <small class="form-text text-muted" style="display:block; margin: 4px 0;">O escribe una URL de internet si no subes archivo:</small>
+                            <input type="text" name="url_video" id="url_video" class="form-control" placeholder="https://ejemplo.com/video.mp4">
                         </div>
 
                         <button type="submit" class="btn btn-success">Guardar Ejercicio Completo</button>
