@@ -38,15 +38,14 @@ examne1Arq/
 │       ├── Vista_Ejercicio.php
 │       ├── Vista_Rutina.php
 │       ├── Vista_Rutina_Cliente.php
-│       └── Vista_Perfil_Entrenador.php
-├── public/
-│   └── css/                    # Estilos CSS modulares
-│       ├── style.css           # Master Stylesheet (Orquestador @import)
-│       ├── variables.css       # Tokens, colores y tipografía Inter
-│       ├── base.css            # Reset y estándares base
-│       ├── layout.css          # Header, navegación y layout principal
-│       ├── components.css      # Botones, tablas, tarjetas, alertas y modales
-│       └── views.css           # Estilos de vistas específicas
+│       ├── Vista_Perfil_Entrenador.php
+│       └── css/                # Estilos CSS modulares de la Vista
+│           ├── style.css       # Master Stylesheet (Orquestador @import)
+│           ├── variables.css   # Tokens, colores y tipografía Inter
+│           ├── base.css        # Reset y estándares base
+│           ├── layout.css      # Header, navegación y layout principal
+│           ├── components.css  # Botones, tablas, tarjetas, alertas y modales
+│           └── views.css       # Estilos de vistas específicas
 ├── index.php                   # Front Controller / Enrutador
 └── README.md
 ```
