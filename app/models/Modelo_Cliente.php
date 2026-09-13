@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/Conexion.php';
+require_once __DIR__ . '/Conexion.php';
 
 /**
  * Clase Modelo_Cliente

@@ -14,13 +14,10 @@ Proyecto desarrollado estrictamente en base a los modelos y especificaciones de 
 
 ```
 examne1Arq/
-├── database/
-│   ├── schema.sql              # Script DDL de MySQL con datos de prueba
-│   └── database.sqlite         # Base de datos SQLite autogenerada para portabilidad inmediata
-├── config/
-│   └── Conexion.php            # Clase Conexion con método getConexion()
 ├── app/
-│   ├── models/                 # Modelos del Paquete 21 (Model)
+│   ├── models/                 # Modelos del Paquete 21 (Model) + Persistencia
+│   │   ├── Conexion.php        # Clase Conexion con método getConexion() (PostgreSQL)
+│   │   ├── schema.sql          # Script DDL de PostgreSQL con datos iniciales
 │   │   ├── Modelo_Cliente.php
 │   │   ├── Modelo_Entrenador.php
 │   │   ├── Modelo_Ejercicio.php
