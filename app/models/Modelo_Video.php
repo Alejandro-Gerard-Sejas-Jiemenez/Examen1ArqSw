@@ -18,14 +18,14 @@ class Modelo_Video
     {
         // Si se envió un archivo desde el dispositivo ($_FILES), gestiona el almacenamiento físico
         if (is_array($url_video) && !empty($url_video['tmp_name']) && $url_video['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = dirname(__DIR__, 2) . '/uploads/';
+            $uploadDir = __DIR__ . '/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
             $extVid = pathinfo($url_video['name'], PATHINFO_EXTENSION) ?: 'mp4';
             $nombreVideo = 'vid_' . time() . '_' . mt_rand(100, 999) . '.' . $extVid;
             if (move_uploaded_file($url_video['tmp_name'], $uploadDir . $nombreVideo)) {
-                $url_video = 'uploads/' . $nombreVideo;
+                $url_video = 'app/models/uploads/' . $nombreVideo;
             } else {
                 $url_video = '';
             }

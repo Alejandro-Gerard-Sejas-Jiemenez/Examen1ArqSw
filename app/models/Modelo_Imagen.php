@@ -17,7 +17,7 @@ class Modelo_Imagen
     public function insertarImagenBD($url_iamgen, $ejercicio_id)
     {
         $db = Conexion::getConexion();
-        $uploadDir = dirname(__DIR__, 2) . '/uploads/';
+        $uploadDir = __DIR__ . '/uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -34,7 +34,7 @@ class Modelo_Imagen
                         if (move_uploaded_file($url_iamgen['tmp_name'][$i], $uploadDir . $nombreArchivo)) {
                             $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
                             $stmt->execute([
-                                ':url_iamgen' => 'uploads/' . $nombreArchivo,
+                                ':url_iamgen' => 'app/models/uploads/' . $nombreArchivo,
                                 ':ejercicio_id' => $ejercicio_id
                             ]);
                             $lastId = $db->lastInsertId();
@@ -48,7 +48,7 @@ class Modelo_Imagen
                 if (move_uploaded_file($url_iamgen['tmp_name'], $uploadDir . $nombreArchivo)) {
                     $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
                     $stmt->execute([
-                        ':url_iamgen' => 'uploads/' . $nombreArchivo,
+                        ':url_iamgen' => 'app/models/uploads/' . $nombreArchivo,
                         ':ejercicio_id' => $ejercicio_id
                     ]);
                     $lastId = $db->lastInsertId();
