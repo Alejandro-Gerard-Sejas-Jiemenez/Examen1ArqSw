@@ -42,8 +42,16 @@ class Controlador_Ejercicio {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre = trim($_POST['nombre'] ?? '');
             $descripcion = trim($_POST['descripcion'] ?? '');
-            // Recurso de imagen: archivo cargado desde el dispositivo o URL escrita
-            $recursoImagen = (!empty($_FILES['archivo_imagen']['tmp_name'])) ? $_FILES['archivo_imagen'] : trim($_POST['url_iamgen'] ?? '');
+            // Recurso de imagen: archivo(s) cargado(s) desde el dispositivo o URL(s) escrita(s)
+            $hayArchivoImagen = false;
+            if (isset($_FILES['archivo_imagen']['name'])) {
+                if (is_array($_FILES['archivo_imagen']['name'])) {
+                    $hayArchivoImagen = !empty($_FILES['archivo_imagen']['name'][0]);
+                } else {
+                    $hayArchivoImagen = !empty($_FILES['archivo_imagen']['tmp_name']);
+                }
+            }
+            $recursoImagen = $hayArchivoImagen ? $_FILES['archivo_imagen'] : trim($_POST['url_iamgen'] ?? '');
             // Recurso de video: archivo cargado desde el dispositivo o URL escrita
             $recursoVideo = (!empty($_FILES['archivo_video']['tmp_name'])) ? $_FILES['archivo_video'] : trim($_POST['url_video'] ?? '');
 

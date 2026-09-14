@@ -16,28 +16,60 @@ class Modelo_Imagen
      */
     public function insertarImagenBD($url_iamgen, $ejercicio_id)
     {
-        // Si se envió un archivo desde el dispositivo ($_FILES), gestiona el almacenamiento físico
-        if (is_array($url_iamgen) && !empty($url_iamgen['tmp_name']) && $url_iamgen['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = dirname(__DIR__, 2) . '/uploads/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
+        $db = Conexion::getConexion();
+        $uploadDir = dirname(__DIR__, 2) . '/uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $lastId = null;
+
+        // Caso 1: Archivo(s) subido(s) desde el dispositivo ($_FILES)
+        if (is_array($url_iamgen) && isset($url_iamgen['name'])) {
+            if (is_array($url_iamgen['name'])) {
+                // Múltiples archivos seleccionados a la vez
+                foreach ($url_iamgen['name'] as $i => $origName) {
+                    if (!empty($url_iamgen['tmp_name'][$i]) && $url_iamgen['error'][$i] === UPLOAD_ERR_OK) {
+                        $ext = pathinfo($origName, PATHINFO_EXTENSION) ?: 'jpg';
+                        $nombreArchivo = 'img_' . time() . '_' . mt_rand(100, 999) . '_' . $i . '.' . $ext;
+                        if (move_uploaded_file($url_iamgen['tmp_name'][$i], $uploadDir . $nombreArchivo)) {
+                            $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
+                            $stmt->execute([
+                                ':url_iamgen' => 'uploads/' . $nombreArchivo,
+                                ':ejercicio_id' => $ejercicio_id
+                            ]);
+                            $lastId = $db->lastInsertId();
+                        }
+                    }
+                }
+            } elseif (!empty($url_iamgen['tmp_name']) && $url_iamgen['error'] === UPLOAD_ERR_OK) {
+                // Un solo archivo
+                $ext = pathinfo($url_iamgen['name'], PATHINFO_EXTENSION) ?: 'jpg';
+                $nombreArchivo = 'img_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
+                if (move_uploaded_file($url_iamgen['tmp_name'], $uploadDir . $nombreArchivo)) {
+                    $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
+                    $stmt->execute([
+                        ':url_iamgen' => 'uploads/' . $nombreArchivo,
+                        ':ejercicio_id' => $ejercicio_id
+                    ]);
+                    $lastId = $db->lastInsertId();
+                }
             }
-            $ext = pathinfo($url_iamgen['name'], PATHINFO_EXTENSION) ?: 'jpg';
-            $nombreArchivo = 'img_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
-            if (move_uploaded_file($url_iamgen['tmp_name'], $uploadDir . $nombreArchivo)) {
-                $url_iamgen = 'uploads/' . $nombreArchivo;
-            } else {
-                $url_iamgen = '';
+        } elseif (is_string($url_iamgen) && !empty(trim($url_iamgen))) {
+            // Caso 2: URLs de texto (soporta una o varias separadas por coma)
+            $urls = array_map('trim', explode(',', $url_iamgen));
+            foreach ($urls as $u) {
+                if (!empty($u)) {
+                    $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
+                    $stmt->execute([
+                        ':url_iamgen' => $u,
+                        ':ejercicio_id' => $ejercicio_id
+                    ]);
+                    $lastId = $db->lastInsertId();
+                }
             }
         }
 
-        $db = Conexion::getConexion();
-        $stmt = $db->prepare("INSERT INTO imagen (url_iamgen, ejercicio_id) VALUES (:url_iamgen, :ejercicio_id)");
-        $stmt->execute([
-            ':url_iamgen' => is_string($url_iamgen) ? $url_iamgen : '',
-            ':ejercicio_id' => $ejercicio_id
-        ]);
-        return $db->lastInsertId();
+        return $lastId;
     }
 
     /**

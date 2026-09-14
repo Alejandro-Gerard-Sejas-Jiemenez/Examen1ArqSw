@@ -51,13 +51,21 @@ class Modelo_Detalle_Rutina
     {
         $db = Conexion::getConexion();
         $stmt = $db->prepare("SELECT dr.*, e.nombre AS nombre_ejercicio, e.descripcion AS descripcion_ejercicio,
-                                     (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id LIMIT 1) AS imagen_url,
-                                     (SELECT url_video FROM video WHERE ejercicio_id = e.id LIMIT 1) AS video_url
+                                     (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id ORDER BY id ASC LIMIT 1) AS imagen_url,
+                                     (SELECT url_video FROM video WHERE ejercicio_id = e.id ORDER BY id ASC LIMIT 1) AS video_url
                               FROM detalle_rutina dr
                               INNER JOIN ejercicio e ON dr.ejercicio_id = e.id
                               WHERE dr.rutina_id = :rutina_id
                               ORDER BY dr.id ASC");
         $stmt->execute([':rutina_id' => $rutina_id]);
-        return $stmt->fetchAll();
+        $detalles = $stmt->fetchAll();
+
+        foreach ($detalles as &$d) {
+            $stmtImg = $db->prepare("SELECT url_iamgen FROM imagen WHERE ejercicio_id = :id ORDER BY id ASC");
+            $stmtImg->execute([':id' => $d['ejercicio_id']]);
+            $d['todas_imagenes'] = $stmtImg->fetchAll(PDO::FETCH_COLUMN);
+        }
+
+        return $detalles;
     }
 }

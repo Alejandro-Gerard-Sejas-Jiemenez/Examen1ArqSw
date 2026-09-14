@@ -36,8 +36,23 @@ class Vista_Ejercicio {
                     <?php foreach ($catalogo as $ej): ?>
                         <div class="card exercise-card">
                             <div class="card-media">
-                                <?php if (!empty($ej['imagen_url'])): ?>
-                                    <img src="<?= htmlspecialchars($ej['imagen_url']) ?>" alt="<?= htmlspecialchars($ej['nombre']) ?>" class="exercise-img">
+                                <?php 
+                                $imagenes = !empty($ej['todas_imagenes']) ? $ej['todas_imagenes'] : (!empty($ej['imagen_url']) ? [$ej['imagen_url']] : []);
+                                ?>
+                                <?php if (!empty($imagenes)): ?>
+                                    <a href="<?= htmlspecialchars($imagenes[0]) ?>" target="_blank" id="link_main_<?= $ej['id'] ?>" title="Abrir foto en tamaño completo" style="display: block;">
+                                        <img src="<?= htmlspecialchars($imagenes[0]) ?>" alt="<?= htmlspecialchars($ej['nombre']) ?>" class="exercise-img" id="img_main_<?= $ej['id'] ?>">
+                                    </a>
+                                    <?php if (count($imagenes) > 1): ?>
+                                        <div class="thumbnails-strip" style="display: flex; gap: 6px; padding: 6px; background: #f8fafc; overflow-x: auto;">
+                                            <?php foreach ($imagenes as $idx => $imgSrc): ?>
+                                                <img src="<?= htmlspecialchars($imgSrc) ?>" 
+                                                     alt="Miniatura <?= $idx + 1 ?>" 
+                                                     style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid #e2e8f0;"
+                                                     onclick="document.getElementById('img_main_<?= $ej['id'] ?>').src = '<?= htmlspecialchars(addslashes($imgSrc)) ?>'; document.getElementById('link_main_<?= $ej['id'] ?>').href = '<?= htmlspecialchars(addslashes($imgSrc)) ?>';">
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                     <div class="no-image">Sin imagen disponible</div>
                                 <?php endif; ?>
@@ -48,10 +63,23 @@ class Vista_Ejercicio {
 
                                 <?php if (!empty($ej['video_url'])): ?>
                                     <div class="video-container">
-                                        <video controls class="exercise-video">
-                                             <source src="<?= htmlspecialchars($ej['video_url']) ?>" type="video/mp4">
-                                            Tu navegador no soporta el video.
-                                        </video>
+                                        <?php 
+                                        $videoUrl = $ej['video_url'];
+                                        $isYoutube = preg_match('/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $videoUrl, $ytMatches);
+                                        ?>
+                                        <?php if ($isYoutube): ?>
+                                            <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($ytMatches[1]) ?>" 
+                                                    class="exercise-video" 
+                                                    style="width:100%; height:220px; border-radius:8px; border:none;" 
+                                                    allowfullscreen 
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                                            </iframe>
+                                        <?php else: ?>
+                                            <video controls class="exercise-video">
+                                                 <source src="<?= htmlspecialchars($videoUrl) ?>" type="video/mp4">
+                                                Tu navegador no soporta el video.
+                                            </video>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -93,11 +121,11 @@ class Vista_Ejercicio {
                         </div>
 
                         <div class="form-group">
-                            <label><strong>Imagen Ilustrativa:</strong></label>
-                            <label for="archivo_imagen" style="font-weight: normal; margin-top: 4px;">Seleccionar imagen desde tu dispositivo:</label>
-                            <input type="file" name="archivo_imagen" id="archivo_imagen" class="form-control" accept="image/*">
-                            <small class="form-text text-muted" style="display:block; margin: 4px 0;">O escribe una URL de internet si no subes archivo:</small>
-                            <input type="text" name="url_iamgen" id="url_iamgen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg">
+                            <label><strong>Imágenes Ilustrativas:</strong></label>
+                            <label for="archivo_imagen" style="font-weight: normal; margin-top: 4px;">Seleccionar una o varias imágenes desde tu dispositivo (puedes seleccionar varias manteniendo presionado Ctrl):</label>
+                            <input type="file" name="archivo_imagen[]" id="archivo_imagen" class="form-control" accept="image/*" multiple>
+                            <small class="form-text text-muted" style="display:block; margin: 4px 0;">O escribe una o varias URLs de internet (separadas por coma):</small>
+                            <input type="text" name="url_iamgen" id="url_iamgen" class="form-control" placeholder="https://ejemplo.com/foto1.jpg, https://ejemplo.com/foto2.jpg">
                         </div>
 
                         <div class="form-group">

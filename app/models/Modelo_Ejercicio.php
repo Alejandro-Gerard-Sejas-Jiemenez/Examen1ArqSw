@@ -58,12 +58,19 @@ class Modelo_Ejercicio
     {
         $db = Conexion::getConexion();
         $sql = "SELECT e.id, e.nombre, e.descripcion,
-                       (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id LIMIT 1) AS imagen_url,
-                       (SELECT url_video FROM video WHERE ejercicio_id = e.id LIMIT 1) AS video_url
+                       (SELECT url_iamgen FROM imagen WHERE ejercicio_id = e.id ORDER BY id ASC LIMIT 1) AS imagen_url,
+                       (SELECT url_video FROM video WHERE ejercicio_id = e.id ORDER BY id ASC LIMIT 1) AS video_url
                 FROM ejercicio e
                 ORDER BY e.id DESC";
         $stmt = $db->query($sql);
-        return $stmt->fetchAll();
+        $ejercicios = $stmt->fetchAll();
+
+        foreach ($ejercicios as &$ej) {
+            $stmtImg = $db->prepare("SELECT url_iamgen FROM imagen WHERE ejercicio_id = :id ORDER BY id ASC");
+            $stmtImg->execute([':id' => $ej['id']]);
+            $ej['todas_imagenes'] = $stmtImg->fetchAll(PDO::FETCH_COLUMN);
+        }
+        return $ejercicios;
     }
 
     /**

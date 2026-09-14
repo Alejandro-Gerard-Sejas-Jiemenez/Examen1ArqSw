@@ -43,9 +43,23 @@ class Vista_Rutina_Cliente {
                     <div class="exercise-list">
                         <?php foreach ($detalles as $d): ?>
                             <div class="card exercise-row-card" onclick="seleccionarEjercicio('<?= $d['id'] ?>')">
-                                <div class="exercise-thumb">
-                                    <?php if (!empty($d['imagen_url'])): ?>
-                                        <img src="<?= htmlspecialchars($d['imagen_url']) ?>" alt="Ejercicio">
+                                <div class="exercise-thumb" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                    <?php 
+                                    $imgs = !empty($d['todas_imagenes']) ? $d['todas_imagenes'] : (!empty($d['imagen_url']) ? [$d['imagen_url']] : []);
+                                    ?>
+                                    <?php if (!empty($imgs)): ?>
+                                        <a href="<?= htmlspecialchars($imgs[0]) ?>" target="_blank" id="link_img_<?= $d['id'] ?>" title="Abrir imagen en tamaño completo" style="display: block;">
+                                            <img src="<?= htmlspecialchars($imgs[0]) ?>" alt="Ejercicio" id="cli_img_<?= $d['id'] ?>">
+                                        </a>
+                                        <?php if (count($imgs) > 1): ?>
+                                            <div style="display: flex; gap: 4px; justify-content: center; margin-top: 4px;">
+                                                <?php foreach ($imgs as $idx => $iSrc): ?>
+                                                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #0284c7; cursor: pointer; border: 1px solid #fff;" 
+                                                          title="Ver foto <?= $idx + 1 ?>"
+                                                          onclick="event.stopPropagation(); document.getElementById('cli_img_<?= $d['id'] ?>').src = '<?= htmlspecialchars(addslashes($iSrc)) ?>'; document.getElementById('link_img_<?= $d['id'] ?>').href = '<?= htmlspecialchars(addslashes($iSrc)) ?>';"></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         <div class="placeholder-thumb">Sin imagen</div>
                                     <?php endif; ?>
@@ -113,6 +127,7 @@ class Vista_Rutina_Cliente {
                         <source id="videoSource" src="" type="video/mp4">
                         Tu navegador no soporta el formato de video.
                     </video>
+                    <iframe id="iframeVideo" class="player-video-responsive" style="display:none; width:100%; height:350px; border:none; border-radius:8px;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
             </div>
         </div>
@@ -120,20 +135,35 @@ class Vista_Rutina_Cliente {
             function verVideo(url, nombre) {
                 const modal = document.getElementById('modalVideo');
                 const player = document.getElementById('playerVideo');
+                const iframe = document.getElementById('iframeVideo');
                 const source = document.getElementById('videoSource');
                 const titulo = document.getElementById('videoTitulo');
                 
                 titulo.textContent = 'Demostración: ' + nombre;
-                source.src = url;
-                player.load();
+
+                const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+                if (ytMatch && ytMatch[1]) {
+                    player.pause();
+                    player.style.display = 'none';
+                    iframe.style.display = 'block';
+                    iframe.src = 'https://www.youtube.com/embed/' + ytMatch[1];
+                } else {
+                    iframe.src = '';
+                    iframe.style.display = 'none';
+                    player.style.display = 'block';
+                    source.src = url;
+                    player.load();
+                    player.play().catch(e => console.log(e));
+                }
                 modal.classList.add('is-visible');
-                player.play();
             }
 
             function cerrarModalVideo() {
                 const modal = document.getElementById('modalVideo');
                 const player = document.getElementById('playerVideo');
+                const iframe = document.getElementById('iframeVideo');
                 player.pause();
+                iframe.src = '';
                 modal.classList.remove('is-visible');
             }
         </script>
